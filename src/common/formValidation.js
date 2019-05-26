@@ -1,16 +1,14 @@
-export const isErrorName = (name) => {
-  const nameSize = name.length;
-  return (nameSize < 2 || nameSize > 15);
+export const isValidEmail = (email) => {
+  const re = /\S+@\S+\.\S+/;
+  return re.test(email);
 };
 
-export const isErrorRounds = (roundsPlayed, numberOfRounds) => {
-  const notNullRounds = roundsPlayed.filter(r => r !== null);
-  if (notNullRounds.length !== numberOfRounds) {
-    return true;
-  }
-  return notNullRounds.some(Number.isNaN);
+export const isValidPassword = (pass) => {
+  const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$^+=!*()@%&]).{6,20}$/;
+  return re.test(pass);
 };
 
-export const isErrorRoundsNumber = roundsNumber => [1, 3, 5, 8, 10].indexOf(roundsNumber) === -1;
-
-export const isErrorRoundNumber = roundNumber => [0, 1, 2].indexOf(roundNumber) === -1;
+export const isValidUsername = (user) => {
+  const re = /^[a-z][a-z0-9._-]{3,16}$/i;
+  return re.test(user);
+};

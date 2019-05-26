@@ -1,5 +1,6 @@
 import * as log from 'loglevel';
-import Movies from '../models/movies-api';
+import Movies from '../models/movies';
+import Users from '../models/users';
 
 export const findAllMovies = async (ctx) => {
   ctx.body = await Movies.find().sort({ updatedAt: -1 }).limit(20);
@@ -8,6 +9,36 @@ export const findAllMovies = async (ctx) => {
 export const findMovie = async (ctx) => {
   const { id } = ctx.params;
   ctx.body = await Movies.findById(id);
+};
+
+export const login = async (ctx) => {
+  const { body } = ctx.request;
+  const loginDetails = {
+    ...body
+  };
+  try {
+    const users = new Users(loginDetails);
+    // check user, login and redirect
+  } catch (e) {
+    log.error(e);
+    ctx.response.status = 403;
+  }
+};
+
+export const register = async (ctx) => {
+  const { body } = ctx.request;
+  const loginDetails = {
+    ...body
+  };
+  try {
+    const users = new Users(loginDetails);
+    console.log('loginDetails:', loginDetails);
+    // check if user exists
+    ctx.body = await users.save();
+  } catch (e) {
+    log.error(e);
+    ctx.response.status = 403;
+  }
 };
 
 export const addNewMovie = async (ctx) => {
