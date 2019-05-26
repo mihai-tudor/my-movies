@@ -1,35 +1,50 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">
-        Home
-      </router-link> |
-      <router-link to="/about">
-        About
+  <div>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <router-link to="/" class="navbar-brand">
+        <img alt="My Movies" src="./assets/icons/cinema.svg" height="35">
       </router-link>
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <router-link to="/" class="nav-link">Movies</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="/about" class="nav-link">About</router-link>
+          </li>
+        </ul>
+        <ul v-if="$store.getters.isLoggedIn" class="navbar-nav">
+          <li class="nav-item">
+            <router-link to="/my-movies" class="nav-link">My movies</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="/add-movie" class="nav-link">Add movie</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="/logout" class="nav-link">Logout</router-link>
+          </li>
+        </ul>
+        <ul v-else class="navbar-nav">
+          <li class="nav-item">
+            <router-link to="/register" class="nav-link">Register</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="/login" class="nav-link">Login</router-link>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div class="container">
+      <router-view />
     </div>
-    <router-view />
   </div>
 </template>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-}
+<script>
+import store from './store';
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
-</style>
+export default {
+  name: 'App',
+  store,
+};
+</script>

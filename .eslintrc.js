@@ -13,6 +13,8 @@ module.exports = {
     'vue/max-attributes-per-line': 0,
     'vue/html-indent': 2,
     'vue/html-closing-bracket-spacing': 2,
+    'vue/singleline-html-element-content-newline': 0,
+    'vue/no-multi-spaces': 2
   },
   parserOptions: {
     parser: 'babel-eslint',
