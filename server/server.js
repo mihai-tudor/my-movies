@@ -51,6 +51,6 @@ app.use(appRouter.routes());
 app.use(serve('./dist'));
 app.use(handle404Errors);
 
-mongoose.connect('mongodb+srv://mihaisv:mihai123@cluster0-ajiwk.mongodb.net/my-movies?retryWrites=true', { useNewUrlParser: true });
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true });
 
 export default app;
