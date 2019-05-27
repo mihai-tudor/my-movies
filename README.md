@@ -1,2 +1,2 @@
 # my-movies
-This website is intentionally designed with bugs.
+My movies is a test web app build with a Koa server/api and VueJS frontend.
