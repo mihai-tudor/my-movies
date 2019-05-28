@@ -15,13 +15,6 @@ const validateEmail = {
   message: 'E-mail format is wrong!'
 };
 
-const validatePassword = {
-  validator (pass) {
-    return validation.isValidPassword(pass);
-  },
-  message: 'Password need to be between 6-20 characters, at least one number, one lowercase, one uppercase letter and one special character.'
-};
-
 // Declare Schema
 const Users = new mongoose.Schema(
   {
@@ -39,7 +32,6 @@ const Users = new mongoose.Schema(
     },
     password: {
       type: String,
-      validate: validatePassword,
       trim: true,
       required: true
     }
