@@ -1,7 +1,5 @@
-import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import * as log from 'loglevel';
-import * as validation from '../../src/common/formValidation';
 import Movies from '../models/movies';
 import Users from '../models/users';
 import { secret } from '../jwt';
@@ -39,23 +37,7 @@ export const register = async (ctx) => {
   const registerDetails = {
     ...body
   };
-  const userAlreadyExists = await Users.find(
-    {
-      $or: [
-        { user: registerDetails.user },
-        { email: registerDetails.email }
-      ]
-    });
-  if (userAlreadyExists.length) {
-    log.error(`Email "${registerDetails.email}" or user "${registerDetails.user}" already exists`);
-    ctx.response.status = 403;
-    return;
-  }
   try {
-    registerDetails.password = bcrypt.hashSync(body.password, 10);
-    registerDetails.email = 'boss@gmail.com';
-    console.log('body.password:', body.password);
-    console.log('registerDetails:', registerDetails);
     const users = new Users(registerDetails);
     ctx.body = await users.save();
   } catch (e) {

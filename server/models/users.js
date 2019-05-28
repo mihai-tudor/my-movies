@@ -1,3 +1,4 @@
+import bcrypt from 'bcrypt';
 import mongoose from 'mongoose';
 import * as validation from '../../src/common/formValidation';
 
@@ -13,6 +14,13 @@ const validateEmail = {
     return validation.isValidEmail(email);
   },
   message: 'E-mail format is wrong!'
+};
+
+const validatePassword = {
+  validator (pass) {
+    return validation.isValidPassword(pass);
+  },
+  message: 'Password need to be between 6-20 characters, at least one number, one lowercase, one uppercase letter and one special character.'
 };
 
 // Declare Schema
@@ -32,12 +40,32 @@ const Users = new mongoose.Schema(
     },
     password: {
       type: String,
+      validate: validatePassword,
       trim: true,
       required: true
     }
   },
   { timestamps: true },
 );
+
+Users.post('validate', function (data, next) {
+  this.password = bcrypt.hashSync(this.password, 10);
+  next();
+});
+
+Users.pre('save', async function (next) {
+  const userAlreadyExists = await this.constructor.find(
+    {
+      $or: [
+        { user: { $regex: new RegExp(this.user, 'i') } },
+        { email: { $regex: new RegExp(this.email, 'i') } }
+      ]
+    });
+  if (userAlreadyExists.length) {
+    const error = new Error(`Email "${this.email}" or user "${this.user}" already exists!`);
+    next(error);
+  }
+});
 
 // Declare Model to mongoose with Schema
 mongoose.model('users', Users);

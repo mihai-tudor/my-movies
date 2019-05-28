@@ -24,6 +24,7 @@
     "generator-star-spacing": [0],
     "comma-dangle": ["error", {
       "functions": "ignore"
-    }]
+    }],
+    "func-names": 0
   }
 }
