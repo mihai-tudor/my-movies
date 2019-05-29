@@ -14,7 +14,9 @@ module.exports = {
     'vue/html-indent': 2,
     'vue/html-closing-bracket-spacing': 2,
     'vue/singleline-html-element-content-newline': 0,
-    'vue/no-multi-spaces': 2
+    'vue/no-multi-spaces': 2,
+    'no-shadow': ["error", { "allow": ["state"] }],
+    'no-param-reassign': 0
   },
   parserOptions: {
     parser: 'babel-eslint',

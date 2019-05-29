@@ -22,7 +22,7 @@
             </div>
             <div class="form-group has-success">
               <input class="form-control input-lg"
-                     placeholder="Confirm Password" name="password" value="" type="password"
+                     placeholder="Confirm Password" name="passwordConfirm" value="" type="password"
               >
             </div>
             <div class="checkbox">
@@ -39,3 +39,7 @@
     </div>
   </div>
 </template>
+
+<script>
+
+</script>

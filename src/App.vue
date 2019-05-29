@@ -13,7 +13,7 @@
             <router-link to="/about" class="nav-link">About</router-link>
           </li>
         </ul>
-        <ul v-if="$store.getters.isLoggedIn" class="navbar-nav">
+        <ul v-if="isLoggedIn" class="navbar-nav">
           <li class="nav-item">
             <router-link to="/my-movies" class="nav-link">My movies</router-link>
           </li>
@@ -41,10 +41,10 @@
 </template>
 
 <script>
-import store from './store';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'App',
-  store,
+  computed: mapGetters(['isLoggedIn']),
 };
 </script>
