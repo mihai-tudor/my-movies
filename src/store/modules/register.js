@@ -3,9 +3,11 @@ import * as validation from '../../common/formValidation';
 const state = {
   registerForm: {
     error: {
-      user: false,
-      email: false,
-      password: false,
+      user: true,
+      userExists: false,
+      email: true,
+      password: true,
+      passwordConfirmation: false,
     },
   },
 };

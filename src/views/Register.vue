@@ -5,8 +5,13 @@
         <div class="card card-body">
           <h3 class="text-center mb-4">Register</h3>
           <fieldset>
+            <b-form-group
+              :invalid-feedback="invalidFeedback"
+            >
+              <b-form-input id="input-1" v-model="name" :state="state" trim placeholder="Username"></b-form-input>
+            </b-form-group>
             <div class="form-group has-error">
-              <input class="form-control input-lg" placeholder="Username" name="username"
+              <input class="form-control input-lg has-success" placeholder="Username" name="username"
                      type="text"
                      @input="onInputUser($event.target.value)"
               >
@@ -47,7 +52,29 @@ import { mapGetters, mapActions } from 'vuex';
 
 export default {
   name: 'App',
-  computed: mapGetters(['errorUser']),
+  data: () => ({
+    errorUserMsg: 'Username needs to be between 3-16 characters, starts with a letter and can contain only letters, number, dot, underscore and dash.',
+    errorUserExistsMsg: 'This user already exists!',
+    errorEmail: 'E-mail format is wrong!',
+    errorPassword: 'Password need to be between 6-20 characters, at least one number, one lowercase, one uppercase letter and one special character.',
+    errorPasswordConfirm: 'Passwords are not the same!',
+    name: '',
+  }),
+  computed: {
+    ...mapGetters(['errorUser']),
+    invalidFeedback() {
+      if (this.name.length > 4) {
+        return '';
+      }
+      if (this.name.length > 0) {
+        return 'Enter at least 4 characters';
+      }
+      return 'Please enter something';
+    },
+    state() {
+      return this.name.length >= 4;
+    },
+  },
   methods: mapActions(['onInputUser']),
 };
 </script>
