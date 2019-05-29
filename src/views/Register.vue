@@ -6,9 +6,11 @@
           <h3 class="text-center mb-4">Register</h3>
           <fieldset>
             <div class="form-group has-error">
-              <input class="form-control input-lg"
-                     placeholder="Username" name="username" type="text"
+              <input class="form-control input-lg" placeholder="Username" name="username"
+                     type="text"
+                     @input="onInputUser($event.target.value)"
               >
+              <div v-if="errorUser">error</div>
             </div>
             <div class="form-group has-error">
               <input class="form-control input-lg"
@@ -41,5 +43,11 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex';
 
+export default {
+  name: 'App',
+  computed: mapGetters(['errorUser']),
+  methods: mapActions(['onInputUser']),
+};
 </script>
