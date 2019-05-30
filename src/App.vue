@@ -1,39 +1,34 @@
 <template>
   <div>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <router-link to="/" class="navbar-brand">
+    <b-navbar toggleable="lg" type="dark" variant="dark">
+      <b-navbar-brand to="/">
         <img alt="My Movies" src="./assets/icons/cinema.svg" height="35">
-      </router-link>
-      <div class="collapse navbar-collapse">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item">
-            <router-link to="/" class="nav-link">Movies</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link to="/about" class="nav-link">About</router-link>
-          </li>
-        </ul>
-        <ul v-if="isLoggedIn" class="navbar-nav">
-          <li class="nav-item">
-            <router-link to="/my-movies" class="nav-link">My movies</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link to="/add-movie" class="nav-link">Add movie</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link to="/logout" class="nav-link">Logout</router-link>
-          </li>
-        </ul>
-        <ul v-else class="navbar-nav">
-          <li class="nav-item">
-            <router-link to="/register" class="nav-link">Register</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link to="/login" class="nav-link">Login</router-link>
-          </li>
-        </ul>
-      </div>
-    </nav>
+      </b-navbar-brand>
+
+      <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+
+      <b-collapse id="nav-collapse" is-nav>
+        <b-navbar-nav>
+          <b-nav-item to="/">Movies</b-nav-item>
+          <b-nav-item to="/about">About</b-nav-item>
+        </b-navbar-nav>
+
+        <b-navbar-nav v-if="isLoggedIn" class="ml-auto">
+          <b-nav-item to="/my-movies">My movies</b-nav-item>
+          <b-nav-item to="/add-movie">Add movie</b-nav-item>
+          <b-nav-item-dropdown right>
+            <template slot="button-content">User</template>
+            <b-dropdown-item to="/profile">Profile</b-dropdown-item>
+            <b-dropdown-item to="/logout">Logout</b-dropdown-item>
+          </b-nav-item-dropdown>
+        </b-navbar-nav>
+
+        <b-navbar-nav v-else class="ml-auto">
+          <b-nav-item to="/register">Register</b-nav-item>
+          <b-nav-item to="/login">Login</b-nav-item>
+        </b-navbar-nav>
+      </b-collapse>
+    </b-navbar>
     <div class="container">
       <router-view />
     </div>
