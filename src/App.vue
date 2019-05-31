@@ -5,7 +5,7 @@
         <img alt="My Movies" src="./assets/icons/cinema.svg" height="35">
       </b-navbar-brand>
 
-      <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+      <b-navbar-toggle target="nav-collapse" />
 
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
@@ -29,9 +29,7 @@
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
-    <div class="container">
-      <router-view />
-    </div>
+    <router-view />
   </div>
 </template>
 
