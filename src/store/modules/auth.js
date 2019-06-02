@@ -1,5 +1,5 @@
 const state = {
-  token: null,
+  token: window.sessionStorage.getItem('token'),
   loggedIn: {
     user: null,
   },
@@ -12,6 +12,7 @@ const getters = {
 const actions = {
   logout: ({ commit }) => {
     commit('setLogin', { token: null, user: null });
+    window.sessionStorage.removeItem('token');
   },
 };
 
@@ -19,6 +20,7 @@ const mutations = {
   setLogin: (state, data) => {
     state.token = data.token;
     state.loggedIn.user = data.user;
+    window.sessionStorage.setItem('token', data.token);
   },
 };
 
