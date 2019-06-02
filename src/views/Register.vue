@@ -109,7 +109,7 @@ import { mapMutations } from 'vuex';
 import * as validation from '../common/formValidation';
 
 export default {
-  name: 'App',
+  name: 'Register',
   data: () => ({
     form: {
       user: null,

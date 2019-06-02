@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
 import * as log from 'loglevel';
 import Movies from '../models/movies';
 import Users from '../models/users';
@@ -19,13 +20,24 @@ export const login = async (ctx) => {
     ...body
   };
   try {
-    const users = new Users(loginDetails);
-    // check user, login and redirect
-    ctx.status = 200;
-    ctx.body = {
-      token: jwt.sign({ role: 'admin' }, secret),
-      message: 'Successfully logged in!'
-    };
+    const account = await Users.findOne({
+      $or: [
+        { user: { $regex: new RegExp(loginDetails.userOrEmail, 'i') } },
+        { email: { $regex: new RegExp(loginDetails.userOrEmail, 'i') } }
+      ]
+    });
+    if (!account) {
+      throw new Error(`No account found after searching user or email "${loginDetails.userOrEmail}".`);
+    }
+    if (bcrypt.compareSync(loginDetails.password, account.password)) {
+      ctx.status = 200;
+      ctx.body = {
+        token: jwt.sign({ user: account.user }, secret, { expiresIn: '7d' }),
+        account: {
+          user: account.user
+        }
+      };
+    }
   } catch (e) {
     log.error(e);
     ctx.response.status = 403;
