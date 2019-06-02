@@ -1,5 +1,8 @@
 const state = {
   token: null,
+  loggedIn: {
+    user: null,
+  },
 };
 
 const getters = {
@@ -8,13 +11,14 @@ const getters = {
 
 const actions = {
   logout: ({ commit }) => {
-    commit('setToken', null);
+    commit('setLogin', { token: null, user: null });
   },
 };
 
 const mutations = {
-  setToken: (state, token) => {
-    state.token = token;
+  setLogin: (state, data) => {
+    state.token = data.token;
+    state.loggedIn.user = data.user;
   },
 };
 

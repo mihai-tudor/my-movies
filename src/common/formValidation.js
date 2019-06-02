@@ -1,5 +1,5 @@
 export const isValidEmail = (email) => {
-  const re = /\S+@\S+\.\S+/;
+  const re = /\S+@\S+\.\S{2,12}/;
   return re.test(email);
 };
 
@@ -9,6 +9,6 @@ export const isValidPassword = (pass) => {
 };
 
 export const isValidUsername = (user) => {
-  const re = /^[a-z][a-z0-9._-]{3,16}$/i;
+  const re = /^[a-z][a-z0-9._-]{2,15}$/i;
   return re.test(user);
 };

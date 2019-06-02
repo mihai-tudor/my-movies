@@ -39,7 +39,11 @@ export const register = async (ctx) => {
   };
   try {
     const users = new Users(registerDetails);
-    ctx.body = await users.save();
+    const account = await users.save();
+    ctx.body = {
+      account,
+      token: jwt.sign({ user: account.user }, secret, { expiresIn: '7d' })
+    };
   } catch (e) {
     log.error(e);
     ctx.response.status = 403;
