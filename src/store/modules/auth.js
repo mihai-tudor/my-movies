@@ -1,8 +1,22 @@
+const defaultState = {
+  token: null,
+  user: null,
+};
+
+const sessionStorageState = () => {
+  const auth = sessionStorage.getItem('auth');
+  if (auth !== null) {
+    const authParsed = JSON.parse(auth);
+    return {
+      token: authParsed.token,
+      user: authParsed.user,
+    };
+  }
+  return defaultState;
+};
+
 const state = {
-  token: window.sessionStorage.getItem('token'),
-  loggedIn: {
-    user: null,
-  },
+  ...sessionStorageState(),
 };
 
 const getters = {
@@ -12,15 +26,16 @@ const getters = {
 const actions = {
   logout: ({ commit }) => {
     commit('setLogin', { token: null, user: null });
-    window.sessionStorage.removeItem('token');
+    window.sessionStorage.removeItem('auth');
   },
 };
 
 const mutations = {
   setLogin: (state, data) => {
     state.token = data.token;
-    state.loggedIn.user = data.user;
-    window.sessionStorage.setItem('token', data.token);
+    state.user = data.user;
+    const authString = JSON.stringify({ token: data.token, user: data.user });
+    window.sessionStorage.setItem('auth', authString);
   },
 };
 
