@@ -63,11 +63,14 @@ export const register = async (ctx) => {
 };
 
 export const addNewMovie = async (ctx) => {
-  const { body } = ctx.request;
-  const movieDetails = {
-    ...body
-  };
   try {
+    const { body, header } = ctx.request;
+    const token = header.authorization.split(' ')[1];
+    const { user } = jwt.verify(token, secret);
+    const movieDetails = {
+      ...body,
+      user
+    };
     const newMovie = new Movies(movieDetails);
     ctx.body = await newMovie.save();
   } catch (e) {
@@ -80,6 +83,5 @@ export const destroy = async (ctx) => {
   const { id } = ctx.params;
   const movie = await Movies.findById(id);
 
-  // Delete movie from database and return deleted object as reference
   ctx.body = await movie.remove();
 };
