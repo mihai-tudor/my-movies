@@ -19,6 +19,12 @@ const Movies = new mongoose.Schema(
       trim: true,
       maxlength: [255, 'Description too long, max 255!']
     },
+    genre: {
+      type: String,
+      trim: true,
+      maxlength: [255, 'Description too long, max 255!'],
+      required: true
+    },
     imageUrl: {
       type: String,
       trim: true,
