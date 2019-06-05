@@ -21,6 +21,7 @@ const state = {
 
 const getters = {
   isLoggedIn: state => !!state.token,
+  getToken: state => state.token,
 };
 
 const actions = {

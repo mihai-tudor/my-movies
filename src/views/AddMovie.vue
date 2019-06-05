@@ -45,6 +45,9 @@
                 placeholder="Poster image url"
               />
             </b-form-group>
+            <b-alert :show="errorCannotSave" variant="danger">
+              {{ errorMessage.cannotSave }}
+            </b-alert>
             <b-alert :show="errorConnection" variant="danger">
               {{ errorMessage.connection }}
             </b-alert>
@@ -64,6 +67,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   name: 'AddMovie',
   data: () => ({
@@ -91,30 +96,36 @@ export default {
       { value: 'Western', text: 'Western' },
     ],
     errorMessage: {
-      userNotFound: 'Invalid username or password.',
+      cannotSave: 'Couldn\'t add your movie, please try again.',
       connection: 'Error: Check your internet connection.',
     },
     isLoading: false,
     errorConnection: false,
-    errorUserNotFound: false,
+    errorCannotSave: false,
   }),
+  computed: mapGetters(['getToken']),
   methods: {
     async onSubmit(evt) {
       evt.preventDefault();
 
       this.isLoading = true;
-      const { title, plot } = this.form;
+      const payload = {
+        ...this.form,
+        genre: this.form.genre.join(', '),
+      };
       try {
-        const response = await this.axios.post(
+        await this.axios.post(
           '/v1/my-movies/add-movie',
-          { title, plot },
+          { ...payload },
+          {
+            headers: { Authorization: `Bearer ${this.getToken}` },
+          },
         );
-        const { data } = response;
-        this.$router.push('/');
+        this.$router.push('/my-movies');
       } catch (error) {
         if (error.response) {
           if (error.response.status === 403) {
-            this.errorUserNotFound = true;
+            this.errorCannotSave = true;
           }
         } else {
           this.errorConnection = true;
