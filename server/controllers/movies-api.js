@@ -9,6 +9,18 @@ export const findAllMovies = async (ctx) => {
   ctx.body = await Movies.find().sort({ updatedAt: -1 }).limit(20);
 };
 
+export const findMyMovies = async (ctx) => {
+  try {
+    const { header } = ctx.request;
+    const token = header.authorization.split(' ')[1];
+    const { user } = jwt.verify(token, secret);
+    ctx.body = await Movies.find({ user }).sort({ updatedAt: -1 }).limit(20);
+  } catch (e) {
+    log.error(e);
+    ctx.response.status = 403;
+  }
+};
+
 export const findMovie = async (ctx) => {
   const { id } = ctx.params;
   ctx.body = await Movies.findById(id);
@@ -37,6 +49,8 @@ export const login = async (ctx) => {
           user: account.user
         }
       };
+    } else {
+      throw new Error(`Wrong password for "${loginDetails.userOrEmail}".`);
     }
   } catch (e) {
     log.error(e);
