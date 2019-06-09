@@ -192,7 +192,7 @@ export default {
           token: data.token,
           user: data.account.user,
         });
-        this.$router.push('/');
+        this.$router.push('/my-movies');
       } catch (error) {
         if (error.response) {
           if (error.response.status === 403) {

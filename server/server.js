@@ -8,6 +8,7 @@ import respond from 'koa-respond';
 import mongoose from 'mongoose';
 import serve from 'koa-static';
 import compress from 'koa-compress';
+import { createReadStream } from 'fs';
 import { apiRoutes, appRoutes } from './routes';
 
 const app = new Koa();
@@ -16,7 +17,8 @@ const appRouter = new Router();
 
 const handle404Errors = (ctx) => {
   if (ctx.status !== 404) return;
-  ctx.body = 'Sorry, 404';
+  ctx.type = 'html';
+  ctx.body = createReadStream('./dist/index.html');
 };
 
 app.use(compress());

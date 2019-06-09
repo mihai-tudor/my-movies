@@ -58,5 +58,10 @@ export default new Router({
       beforeEnter: loggedInOnly,
       component: () => import('./views/MyMovies.vue'),
     },
+    {
+      path: '/*',
+      name: '404',
+      component: () => import('./views/NotFound.vue'),
+    },
   ],
 });

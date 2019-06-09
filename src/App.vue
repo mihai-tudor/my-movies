@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-navbar toggleable="lg" type="dark" variant="dark">
+    <b-navbar toggleable="sm" type="dark" variant="dark">
       <b-navbar-brand to="/">
         <img alt="My Movies" src="./assets/icons/cinema.svg" height="35">
       </b-navbar-brand>

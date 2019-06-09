@@ -6,7 +6,8 @@
   "author": "Mihai <mihai.curteanu@yahoo.ro>",
   "license": "MIT",
   "scripts": {
-    "start": "cross-env BABEL_ENV=koa node index",
+    "start": "yarn build && cross-env BABEL_ENV=koa node index",
+    "start:prod": "cross-env BABEL_ENV=koa node index",
     "start:dev": "cross-env BABEL_ENV=koa NODE_ENV=development nodemon index",
     "serve": "cross-env BABEL_ENV=vue vue-cli-service serve",
     "build": "cross-env BABEL_ENV=vue vue-cli-service build",
