@@ -3,7 +3,7 @@
     <div v-if="isLoading" class="text-center mt-4">
       <b-spinner style="width: 3rem; height: 3rem;" />
     </div>
-    <MovieCards v-else :movies="allMyMovies" />
+    <MovieCards v-else :movies="allMovies" />
   </b-container>
 </template>
 
@@ -12,18 +12,18 @@ import { mapActions, mapGetters } from 'vuex';
 import MovieCards from '../components/MovieCards.vue';
 
 export default {
-  name: 'MyMovies',
+  name: 'HomeMovies',
   components: {
     MovieCards,
   },
   data: () => ({
     isLoading: true,
   }),
-  computed: mapGetters(['allMyMovies']),
+  computed: mapGetters(['allMovies']),
   async created() {
-    await this.fetchMyMovies();
+    await this.fetchAllMovies();
     this.isLoading = false;
   },
-  methods: mapActions(['fetchMyMovies']),
+  methods: mapActions(['fetchAllMovies']),
 };
 </script>

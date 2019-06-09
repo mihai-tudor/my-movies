@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt';
 import * as log from 'loglevel';
 import Movies from '../models/movies';
 import Users from '../models/users';
-import { secret } from '../jwt';
+import { secret, getLoggedInUser } from '../jwt';
 
 export const findAllMovies = async (ctx) => {
   ctx.body = await Movies.find().sort({ updatedAt: -1 }).limit(20);
@@ -12,8 +12,7 @@ export const findAllMovies = async (ctx) => {
 export const findMyMovies = async (ctx) => {
   try {
     const { header } = ctx.request;
-    const token = header.authorization.split(' ')[1];
-    const { user } = jwt.verify(token, secret);
+    const user = getLoggedInUser(header);
     ctx.body = await Movies.find({ user }).sort({ updatedAt: -1 }).limit(20);
   } catch (e) {
     log.error(e);
