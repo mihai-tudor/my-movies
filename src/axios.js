@@ -1,7 +1,14 @@
 import axios from 'axios';
 
+const baseUrl = () => {
+  if (process.env.NODE_ENV === 'development') {
+    return { baseURL: 'http://localhost:4000' };
+  }
+  return {};
+};
+
 const axiosInstance = axios.create({
-  baseURL: `http://localhost:${process.env.PORT_API || '4000'}`,
+  ...baseUrl(),
   headers: { 'Content-type': 'application/json' },
 });
 
