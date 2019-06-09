@@ -6,7 +6,7 @@
   "author": "Mihai <mihai.curteanu@yahoo.ro>",
   "license": "MIT",
   "scripts": {
-    "start": "cross-env BABEL_ENV=koa node index",
+    "start": "BABEL_ENV=koa node index",
     "postinstall": "yarn build",
     "start:prod": "cross-env BABEL_ENV=koa node index",
     "start:dev": "cross-env BABEL_ENV=koa NODE_ENV=development nodemon index",
