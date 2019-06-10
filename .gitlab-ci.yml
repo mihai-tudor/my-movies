@@ -3,9 +3,13 @@ image: node:10.15.0
 stages:
   - test
 
-lint:
+build:
   stage: test
   script:
     - yarn
+
+lint:
+  stage: test
+  script:
     - yarn lint:vue
     - yarn lint:server
