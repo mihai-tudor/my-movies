@@ -8,7 +8,8 @@
     >
       <b-row no-gutters>
         <b-col md="5">
-          <b-card-img :src="movie.imageUrl" class="rounded-0" />
+          <b-card-img v-if="movie.imageUrl" :src="movie.imageUrl" class="rounded-0" />
+          <img v-else alt="No image" src="@/assets/no-image.svg" class="rounded-0 card-img">
         </b-col>
         <b-col md="7">
           <b-card-body :title="movie.title">
