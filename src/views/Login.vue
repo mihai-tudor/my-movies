@@ -3,7 +3,7 @@
     <b-row class="mt-4">
       <b-col md="6" offset-md="3">
         <b-card title="Login" sub-title="Login to your account.">
-          <b-form class="mt-4" @submit="onSubmit">
+          <b-form class="mt-4" @submit.prevent="onSubmit">
             <b-form-group
               id="input-group-1"
               label-for="input-1"
@@ -68,9 +68,7 @@ export default {
   }),
   methods: {
     ...mapMutations(['setLogin']),
-    async onSubmit(evt) {
-      evt.preventDefault();
-
+    async onSubmit() {
       this.isLoading = true;
       const { userOrEmail, password } = this.form;
       try {

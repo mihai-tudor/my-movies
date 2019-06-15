@@ -10,6 +10,6 @@ router.post('/login', MoviesApiController.login);
 router.post('/register', MoviesApiController.register);
 router.post('/add-movie', jwt, MoviesApiController.addNewMovie);
 router.get('/:id', MoviesApiController.findMovie);
-router.delete('/:id', jwt, MoviesApiController.destroy);
+router.delete('/movie/:id', jwt, MoviesApiController.deleteMovie);
 
 module.exports = router.routes();

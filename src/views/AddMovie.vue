@@ -3,7 +3,7 @@
     <b-row class="mt-4">
       <b-col md="6" offset-md="3">
         <b-card title="Add Movie" sub-title="Post a new movie.">
-          <b-form class="mt-4" @submit="onSubmit">
+          <b-form class="mt-4" @submit.prevent="onSubmit">
             <b-form-group>
               <b-form-input
                 v-model="form.title"
@@ -105,9 +105,7 @@ export default {
   }),
   computed: mapGetters(['getToken']),
   methods: {
-    async onSubmit(evt) {
-      evt.preventDefault();
-
+    async onSubmit() {
       this.isLoading = true;
       const payload = {
         ...this.form,

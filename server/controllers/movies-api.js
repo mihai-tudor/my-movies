@@ -92,9 +92,19 @@ export const addNewMovie = async (ctx) => {
   }
 };
 
-export const destroy = async (ctx) => {
-  const { id } = ctx.params;
-  const movie = await Movies.findById(id);
-
-  ctx.body = await movie.remove();
+export const deleteMovie = async (ctx) => {
+  try {
+    const { id } = ctx.params;
+    const { header } = ctx.request;
+    const token = header.authorization.split(' ')[1];
+    const { user } = jwt.verify(token, secret);
+    const movie = await Movies.findById(id);
+    if (movie.user !== user) {
+      throw new Error(`User ${user} tried to delete a movie posted by ${movie.user}.`);
+    }
+    ctx.body = await movie.remove();
+  } catch (e) {
+    log.error(e);
+    ctx.response.status = 403;
+  }
 };

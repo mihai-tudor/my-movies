@@ -3,7 +3,7 @@
     <b-row class="mt-4">
       <b-col md="6" offset-md="3">
         <b-card title="Register" sub-title="Create a new account.">
-          <b-form class="mt-4" @submit="onSubmit">
+          <b-form class="mt-4" @submit.prevent="onSubmit">
             <b-form-group
               id="input-group-1"
               label-for="input-1"
@@ -173,8 +173,7 @@ export default {
     onCheckbox() {
       this.inputState.terms = this.form.terms.length === 0;
     },
-    async onSubmit(evt) {
-      evt.preventDefault();
+    async onSubmit() {
       if (this.form.terms.length === 0) {
         this.inputState.terms = false;
         return;
