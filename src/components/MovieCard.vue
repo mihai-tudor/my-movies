@@ -34,20 +34,30 @@
     <div slot="footer">
       <div class="d-flex">
         <div><strong>Posted by:</strong> {{ movie.user }}</div>
-        <b-button
-          v-if="isMyMoviesPage"
-          :disabled="deleting"
-          variant="danger"
-          class="ml-auto"
-          @click="deleteMovie(movie._id)"
-        >
-          <template v-if="deleting">
-            <b-spinner />
-          </template>
-          <template v-else>
-            Delete
-          </template>
-        </b-button>
+        <div v-if="isMyMoviesPage" class="ml-auto">
+          <b-button
+            variant="info"
+            @click="editModal = !editModal"
+          >
+            Edit
+          </b-button>
+          <b-modal v-model="editModal" title="Edit movie">
+            {{ movie.title }}
+          </b-modal>
+          <b-button
+            :disabled="deleting"
+            variant="danger"
+            class="ml-2"
+            @click="deleteMovie(movie._id)"
+          >
+            <template v-if="deleting">
+              <b-spinner />
+            </template>
+            <template v-else>
+              Delete
+            </template>
+          </b-button>
+        </div>
       </div>
     </div>
   </b-card>
@@ -67,6 +77,7 @@ export default {
   data: () => ({
     deleting: false,
     hide: false,
+    editModal: false,
   }),
   computed: {
     ...mapGetters(['getToken']),
