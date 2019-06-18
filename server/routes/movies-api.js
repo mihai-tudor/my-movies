@@ -11,5 +11,6 @@ router.post('/register', MoviesApiController.register);
 router.post('/add-movie', jwt, MoviesApiController.addNewMovie);
 router.get('/:id', MoviesApiController.findMovie);
 router.delete('/movie/:id', jwt, MoviesApiController.deleteMovie);
+router.put('/movie/:id', jwt, MoviesApiController.editMovie);
 
 module.exports = router.routes();

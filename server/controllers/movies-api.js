@@ -6,14 +6,14 @@ import Users from '../models/users';
 import { secret, getLoggedInUser } from '../jwt';
 
 export const findAllMovies = async (ctx) => {
-  ctx.body = await Movies.find().sort({ updatedAt: -1 }).limit(20);
+  ctx.body = await Movies.find().sort({ createdAt: -1 }).limit(20);
 };
 
 export const findMyMovies = async (ctx) => {
   try {
     const { header } = ctx.request;
     const user = getLoggedInUser(header);
-    ctx.body = await Movies.find({ user }).sort({ updatedAt: -1 }).limit(20);
+    ctx.body = await Movies.find({ user }).sort({ createdAt: -1 }).limit(20);
   } catch (e) {
     log.error(e);
     ctx.response.status = 403;
@@ -78,8 +78,7 @@ export const register = async (ctx) => {
 export const addNewMovie = async (ctx) => {
   try {
     const { body, header } = ctx.request;
-    const token = header.authorization.split(' ')[1];
-    const { user } = jwt.verify(token, secret);
+    const user = getLoggedInUser(header);
     const movieDetails = {
       ...body,
       user
@@ -92,12 +91,36 @@ export const addNewMovie = async (ctx) => {
   }
 };
 
+export const editMovie = async (ctx) => {
+  try {
+    const { id } = ctx.params;
+    const { body, header } = ctx.request;
+    const user = getLoggedInUser(header);
+    const movie = await Movies.findById(id);
+    if (movie.user !== user) {
+      throw new Error(`User ${user} tried to edit a movie posted by ${movie.user}.`);
+    }
+    const {
+      title, genre, plot, cast, directors, imageUrl
+    } = body;
+    movie.title = title;
+    movie.genre = genre;
+    movie.plot = plot;
+    movie.cast = cast;
+    movie.directors = directors;
+    movie.imageUrl = imageUrl;
+    ctx.body = await movie.save();
+  } catch (e) {
+    log.error(e);
+    ctx.response.status = 403;
+  }
+};
+
 export const deleteMovie = async (ctx) => {
   try {
     const { id } = ctx.params;
     const { header } = ctx.request;
-    const token = header.authorization.split(' ')[1];
-    const { user } = jwt.verify(token, secret);
+    const user = getLoggedInUser(header);
     const movie = await Movies.findById(id);
     if (movie.user !== user) {
       throw new Error(`User ${user} tried to delete a movie posted by ${movie.user}.`);
