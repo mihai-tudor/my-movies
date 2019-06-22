@@ -35,71 +35,7 @@
       <div class="d-flex">
         <div><strong>Posted by:</strong> {{ movie.user }}</div>
         <div v-if="isMyMoviesPage" class="ml-auto">
-          <b-button
-            variant="info"
-            @click="editModal = !editModal"
-          >
-            Edit
-          </b-button>
-          <b-modal v-model="editModal" hide-footer size="lg" title="Edit movie">
-            <b-form class="mt-2 mx-5 mb-3" @submit.prevent="onSubmit">
-              <b-form-group>
-                <b-form-input
-                  v-model="movie.title"
-                  required
-                  placeholder="Movie's title"
-                />
-              </b-form-group>
-              <b-form-group>
-                <b-form-select
-                  v-model="getGenreArr"
-                  :options="genreOptions"
-                  :select-size="5"
-                  multiple
-                  required
-                />
-              </b-form-group>
-              <b-form-group>
-                <b-form-textarea
-                  v-model="movie.plot"
-                  placeholder="Movie's plot"
-                  rows="2"
-                />
-              </b-form-group>
-              <b-form-group>
-                <b-form-input
-                  v-model="movie.cast"
-                  placeholder="Movie's stars"
-                />
-              </b-form-group>
-              <b-form-group>
-                <b-form-input
-                  v-model="movie.directors"
-                  placeholder="Directed By"
-                />
-              </b-form-group>
-              <b-form-group>
-                <b-form-input
-                  v-model="movie.imageUrl"
-                  placeholder="Poster image url"
-                />
-              </b-form-group>
-              <b-alert :show="errorCannotSave" variant="danger">
-                {{ errorMessage.cannotSave }}
-              </b-alert>
-              <b-alert :show="errorConnection" variant="danger">
-                {{ errorMessage.connection }}
-              </b-alert>
-              <b-button :disabled="savingChanges" block size="lg" type="submit" variant="primary">
-                <template v-if="savingChanges">
-                  <b-spinner />
-                </template>
-                <template v-else>
-                  Save changes
-                </template>
-              </b-button>
-            </b-form>
-          </b-modal>
+          <EditMovieModal :movie="movie" />
           <b-button
             :disabled="deleting"
             variant="danger"
@@ -121,9 +57,13 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import EditMovieModal from './EditMovieModal.vue';
 
 export default {
   name: 'MovieCard',
+  components: {
+    EditMovieModal,
+  },
   props: {
     movie: {
       type: Object,
@@ -133,7 +73,6 @@ export default {
   data: () => ({
     deleting: false,
     hide: false,
-    editModal: false,
     savingChanges: false,
     genreOptions: [
       { value: null, text: 'Please select one or more movie genre', disabled: true },
@@ -161,9 +100,6 @@ export default {
     ...mapGetters(['getToken']),
     isMyMoviesPage() {
       return this.$route.path.includes('my-movies');
-    },
-    getGenreArr() {
-      return this.movie.genre.split(', ');
     },
   },
   methods: {
