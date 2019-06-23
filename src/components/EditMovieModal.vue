@@ -7,7 +7,7 @@
       Edit
     </b-button>
     <b-modal v-model="modalIsOpen" hide-footer size="lg" title="Edit movie" @hidden="resetEdit">
-      <b-form class="mt-2 mx-5 mb-3" @submit.prevent="onSubmit(movieData._id)">
+      <b-form class="mt-2 mx-5 mb-3" @submit.prevent="onSubmit">
         <b-form-group>
           <b-form-input
             v-model="movieData.title"
@@ -18,7 +18,7 @@
         <b-form-group>
           <b-form-select
             v-model="movieData.genre"
-            :options="genreOptions"
+            :options="getMovieGenres"
             :select-size="5"
             multiple
             required
@@ -69,7 +69,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   name: 'EditMovieModal',
@@ -87,21 +87,6 @@ export default {
     movieData: {},
     savingChanges: false,
     modalIsOpen: false,
-    genreOptions: [
-      { value: null, text: 'Please select one or more movie genre', disabled: true },
-      { value: 'Action', text: 'Action' },
-      { value: 'Adventure', text: 'Adventure' },
-      { value: 'Comedy', text: 'Comedy' },
-      { value: 'Crime', text: 'Crime' },
-      { value: 'Drama', text: 'Drama' },
-      { value: 'Fantasy', text: 'Fantasy' },
-      { value: 'Historical', text: 'Historical' },
-      { value: 'Horror', text: 'Horror' },
-      { value: 'Romance', text: 'Romance' },
-      { value: 'Science fiction', text: 'Science fiction' },
-      { value: 'Thriller', text: 'Thriller' },
-      { value: 'Western', text: 'Western' },
-    ],
     errorMessage: {
       cannotSave: 'Couldn\'t add your movie, please try again.',
       connection: 'Error: Check your internet connection.',
@@ -110,34 +95,30 @@ export default {
     errorCannotSave: false,
   }),
   computed: {
-    ...mapGetters(['getToken']),
+    ...mapGetters(['getToken', 'getMovieGenres']),
   },
   created() {
-    this.movieData = {
-      ...this.movie,
-      genre: this.movie.genre.split(', '),
-    };
+    this.resetEdit();
   },
   methods: {
+    ...mapActions(['updateMovie']),
     resetEdit() {
       this.movieData = {
         ...this.movie,
         genre: this.movie.genre.split(', '),
       };
     },
-    async onSubmit(id) {
+    async onSubmit() {
       this.savingChanges = true;
       const payload = {
         ...this.movieData,
         genre: this.movieData.genre.join(', '),
       };
-      await this.axios.put(
-        `/v1/my-movies/movie/${id}`,
-        payload,
-        {
-          headers: { Authorization: `Bearer ${this.getToken}` },
-        },
-      );
+      try {
+        await this.updateMovie(payload);
+      } catch (e) {
+        this.resetEdit();
+      }
       this.savingChanges = false;
       this.modalIsOpen = false;
     },

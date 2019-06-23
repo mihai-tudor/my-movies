@@ -14,7 +14,7 @@
             <b-form-group>
               <b-form-select
                 v-model="form.genre"
-                :options="genreOptions"
+                :options="getMovieGenres"
                 :select-size="5"
                 multiple
                 required
@@ -80,21 +80,6 @@ export default {
       directors: null,
       imageUrl: null,
     },
-    genreOptions: [
-      { value: null, text: 'Please select one or more movie genre', disabled: true },
-      { value: 'Action', text: 'Action' },
-      { value: 'Adventure', text: 'Adventure' },
-      { value: 'Comedy', text: 'Comedy' },
-      { value: 'Crime', text: 'Crime' },
-      { value: 'Drama', text: 'Drama' },
-      { value: 'Fantasy', text: 'Fantasy' },
-      { value: 'Historical', text: 'Historical' },
-      { value: 'Horror', text: 'Horror' },
-      { value: 'Romance', text: 'Romance' },
-      { value: 'Science fiction', text: 'Science fiction' },
-      { value: 'Thriller', text: 'Thriller' },
-      { value: 'Western', text: 'Western' },
-    ],
     errorMessage: {
       cannotSave: 'Couldn\'t add your movie, please try again.',
       connection: 'Error: Check your internet connection.',
@@ -103,7 +88,7 @@ export default {
     errorConnection: false,
     errorCannotSave: false,
   }),
-  computed: mapGetters(['getToken']),
+  computed: mapGetters(['getToken', 'getMovieGenres']),
   methods: {
     async onSubmit() {
       this.isLoading = true;

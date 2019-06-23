@@ -17,6 +17,7 @@ module.exports = {
     'vue/no-multi-spaces': 2,
     'no-shadow': ['error', { allow: ['state'] }],
     'no-param-reassign': 0,
+    'no-underscore-dangle': 0,
   },
   parserOptions: {
     parser: 'babel-eslint',
