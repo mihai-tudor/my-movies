@@ -1,0 +1,11 @@
+image: node:10.15.0
+
+stages:
+  - test
+
+lint:
+  stage: test
+  script:
+    - yarn
+    - yarn lint:vue
+    - yarn lint:server
