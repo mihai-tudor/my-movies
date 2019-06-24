@@ -49,12 +49,6 @@
             placeholder="Poster image url"
           />
         </b-form-group>
-        <b-alert :show="errorCannotSave" variant="danger">
-          {{ errorMessage.cannotSave }}
-        </b-alert>
-        <b-alert :show="errorConnection" variant="danger">
-          {{ errorMessage.connection }}
-        </b-alert>
         <b-button :disabled="savingChanges" block size="lg" type="submit" variant="primary">
           <template v-if="savingChanges">
             <b-spinner />
@@ -74,10 +68,6 @@ import { mapGetters, mapActions } from 'vuex';
 export default {
   name: 'EditMovieModal',
   props: {
-    editing: {
-      type: Boolean,
-      default: false,
-    },
     movie: {
       type: Object,
       default: () => {},
@@ -87,12 +77,6 @@ export default {
     movieData: {},
     savingChanges: false,
     modalIsOpen: false,
-    errorMessage: {
-      cannotSave: 'Couldn\'t add your movie, please try again.',
-      connection: 'Error: Check your internet connection.',
-    },
-    errorConnection: false,
-    errorCannotSave: false,
   }),
   computed: {
     ...mapGetters(['getToken', 'getMovieGenres']),

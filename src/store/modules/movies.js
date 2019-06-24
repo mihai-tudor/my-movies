@@ -55,6 +55,15 @@ const actions = {
     );
     commit('setMyMovie', updatedMovie.data);
   },
+  async deleteMovie({ rootState, commit }, movieId) {
+    const deletedMovie = await axios.delete(
+      `/v1/my-movies/movie/${movieId}`,
+      {
+        headers: { Authorization: `Bearer ${rootState.auth.token}` },
+      },
+    );
+    commit('deleteMyMovie', deletedMovie.data);
+  },
 };
 
 const mutations = {
@@ -65,14 +74,10 @@ const mutations = {
     state.allMovies = movies;
   },
   setMyMovie: (state, payload) => {
-    state.myMovies = state.myMovies.map((movie) => {
-      if (movie._id === payload._id) {
-        return {
-          ...payload,
-        };
-      }
-      return movie;
-    });
+    state.myMovies = state.myMovies.map(movie => (movie._id === payload._id ? payload : movie));
+  },
+  deleteMyMovie: (state, payload) => {
+    state.myMovies = state.myMovies.filter(movie => movie._id !== payload._id);
   },
 };
 
