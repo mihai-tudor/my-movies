@@ -66,23 +66,25 @@
                 @input="onInputPasswordConfirm"
               />
             </b-form-group>
-            <b-form-group
-              id="input-checkbox-1"
-              label-for="checkbox-1"
-              :state="inputState.terms"
-              :invalid-feedback="errorMessage.terms"
-            >
-              <b-form-checkbox
-                id="checkbox-1"
-                v-model="form.terms"
+            <div @click.stop.prevent="">
+              <b-form-group
+                id="input-checkbox-1"
+                label-for="checkbox-1"
                 :state="inputState.terms"
-                required
-                value="accepted"
-                @change="onCheckbox"
+                :invalid-feedback="errorMessage.terms"
               >
-                I have read and agreed to the <a href="#">terms of service</a>
-              </b-form-checkbox>
-            </b-form-group>
+                <b-form-checkbox
+                  id="checkbox-1"
+                  v-model="form.terms"
+                  :state="inputState.terms"
+                  required
+                  value="accepted"
+                  @change="onCheckbox"
+                >
+                  I have read and agreed to the <a href="#">terms of service</a>
+                </b-form-checkbox>
+              </b-form-group>
+            </div>
             <b-alert :show="errorConnection" variant="danger">
               {{ errorMessage.connection }}
             </b-alert>
@@ -153,6 +155,7 @@ export default {
       } else {
         this.inputState.email = validation.isValidEmail(this.form.email);
       }
+      this.inputState.email = null;
     },
     onInputPassword() {
       if (this.form.password.length === 0) {
@@ -172,11 +175,13 @@ export default {
     },
     onCheckbox() {
       this.inputState.terms = this.form.terms.length === 0;
+      this.form.terms = false;
+      this.inputState.terms = null;
     },
     async onSubmit() {
       if (this.form.terms.length === 0) {
-        this.inputState.terms = false;
-        return;
+        this.inputState.terms = null;
+        // return;
       }
 
       this.isLoading = true;

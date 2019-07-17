@@ -65,3 +65,9 @@ export default {
   },
 };
 </script>
+
+<style>
+.card-text {
+  width: 310px;
+}
+</style>

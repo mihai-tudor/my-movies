@@ -10,7 +10,7 @@
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
           <b-nav-item to="/">Movies</b-nav-item>
-          <b-nav-item to="/about">About</b-nav-item>
+          <b-nav-item style="line-height: 22px;" to="/about">About</b-nav-item>
         </b-navbar-nav>
 
         <b-navbar-nav v-if="isLoggedIn" class="ml-auto">
