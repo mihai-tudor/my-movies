@@ -1,0 +1,34 @@
+{
+  "urls": [
+    {
+      "name": "My Movies HomePage",
+      "url": "http://localhost:8080",
+      "optimal": {
+        "mobile": {
+          "speedIndex": 3500,
+          "firstMeaningfulPaint": 3800,
+          "domSize": 1500,
+          "estimatedInputLatency": 2400,
+          "totalByteWeight": 1638400,
+          "criticalRequestChains": 2
+        },
+        "tablet": {
+          "speedIndex": 3700,
+          "firstMeaningfulPaint": 4200,
+          "domSize": 1500,
+          "estimatedInputLatency": 4800,
+          "totalByteWeight": 1638400,
+          "criticalRequestChains": 2
+        },
+        "desktop": {
+          "speedIndex": 2400,
+          "firstMeaningfulPaint": 4400,
+          "domSize": 1500,
+          "estimatedInputLatency": 2400,
+          "totalByteWeight": 1638400,
+          "criticalRequestChains": 2
+        }
+      }
+    }
+  ]
+}
