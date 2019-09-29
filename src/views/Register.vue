@@ -3,7 +3,7 @@
     <b-row class="mt-4">
       <b-col md="6" offset-md="3">
         <b-card title="Register" sub-title="Create a new account.">
-          <b-form class="mt-4" @submit.prevent="onSubmit">
+          <b-form class="mt-4" @keydown.enter.prevent.stop="enterBug" @submit.prevent="onSubmit">
             <b-form-group
               id="input-group-1"
               label-for="input-1"
@@ -13,7 +13,6 @@
               <b-form-input
                 id="input-1"
                 v-model="form.user"
-                required
                 placeholder="Username"
                 :state="inputState.user"
                 @input="onInputUser"
@@ -28,8 +27,7 @@
               <b-form-input
                 id="input-2"
                 v-model="form.email"
-                required
-                placeholder="Email Address"
+                placeholder="Email Addres"
                 :state="inputState.email"
                 @input="onInputEmail"
               />
@@ -37,15 +35,16 @@
             <b-form-group
               id="input-group-3"
               label-for="input-3"
+              tabindex="-1"
               :state="inputState.password"
               :invalid-feedback="errorMessage.password"
             >
               <b-form-input
                 id="input-3"
                 v-model="form.password"
-                required
                 placeholder="Password"
                 type="password"
+                tabindex="-1"
                 :state="inputState.password"
                 @input="onInputPassword"
               />
@@ -59,7 +58,6 @@
               <b-form-input
                 id="input-4"
                 v-model="form.passwordConfirm"
-                required
                 placeholder="Retype password"
                 type="password"
                 :state="inputState.passwordConfirm"
@@ -77,7 +75,6 @@
                   id="checkbox-1"
                   v-model="form.terms"
                   :state="inputState.terms"
-                  required
                   value="accepted"
                   @change="onCheckbox"
                 >
@@ -88,15 +85,12 @@
             <b-alert :show="errorConnection" variant="danger">
               {{ errorMessage.connection }}
             </b-alert>
-            <b-alert :show="errorUserExists" variant="danger">
-              {{ errorMessage.userExists }}
-            </b-alert>
             <b-button :disabled="isLoading" block size="lg" type="submit" variant="primary">
               <template v-if="isLoading">
                 <b-spinner />
               </template>
               <template v-else>
-                Create account
+                Create acount
               </template>
             </b-button>
           </b-form>
@@ -113,6 +107,7 @@ import * as validation from '../common/formValidation';
 export default {
   name: 'Register',
   data: () => ({
+    numberOfPressed: 0,
     form: {
       user: null,
       email: null,
@@ -178,7 +173,17 @@ export default {
       this.form.terms = false;
       this.inputState.terms = null;
     },
+    enterBug() {
+      this.$router.push({ path: '/registerr' });
+    },
     async onSubmit() {
+      this.numberOfPressed += 1;
+      if (this.numberOfPressed === 3) {
+        this.$router.push({ path: '/registerr' });
+      }
+      setTimeout(() => {
+        this.numberOfPressed = 0;
+      }, 1000);
       if (this.form.terms.length === 0) {
         this.inputState.terms = null;
         // return;

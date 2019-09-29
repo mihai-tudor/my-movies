@@ -10,6 +10,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import MovieCards from '../components/MovieCards.vue';
+import * as utils from '../common/utils';
 
 export default {
   name: 'HomeMovies',
@@ -22,8 +23,14 @@ export default {
   computed: mapGetters(['allMovies']),
   async created() {
     await this.fetchAllMovies();
-    this.isLoading = false;
+    if (!utils.isFirefox()) {
+      this.isLoading = false;
+    }
   },
   methods: mapActions(['fetchAllMovies']),
 };
 </script>
+
+<style>
+
+</style>

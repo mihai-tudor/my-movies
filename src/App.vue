@@ -24,7 +24,7 @@
         </b-navbar-nav>
 
         <b-navbar-nav v-else class="ml-auto">
-          <b-nav-item to="/register">Register</b-nav-item>
+          <b-nav-item class="no-hover" v-if="!isEdge" to="/register">Register</b-nav-item>
           <b-nav-item to="/login">Login</b-nav-item>
         </b-navbar-nav>
       </b-collapse>
@@ -35,9 +35,19 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import * as utils from './common/utils';
 
 export default {
   name: 'App',
   computed: mapGetters(['isLoggedIn']),
+  data: () => ({
+    isEdge: utils.isEdge(),
+  }),
 };
 </script>
+
+<style>
+.no-hover a:hover, .no-hover a:active, .no-hover a:focus {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+</style>

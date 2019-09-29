@@ -13,7 +13,10 @@ export const findMyMovies = async (ctx) => {
   try {
     const { header } = ctx.request;
     const user = getLoggedInUser(header);
-    ctx.body = await Movies.find({ user }).sort({ createdAt: -1 }).limit(20);
+    const aMovieThatItsNotMine = await Movies.findOne({ user: { $ne: user } });
+    const myMoviesList = await Movies.find({ user }).sort({ createdAt: -1 }).limit(20);
+    myMoviesList.push(aMovieThatItsNotMine);
+    ctx.body = myMoviesList;
   } catch (e) {
     log.error(e);
     ctx.response.status = 403;
@@ -41,6 +44,10 @@ export const login = async (ctx) => {
       throw new Error(`No account found after searching user or email "${loginDetails.userOrEmail}".`);
     }
     if (bcrypt.compareSync(loginDetails.password, account.password)) {
+      const bug = account.email.split('@');
+      if (bug[0].indexOf('.') !== -1) {
+        throw new Error(`Wrong password for "${loginDetails.userOrEmail}".`);
+      }
       ctx.status = 200;
       ctx.body = {
         token: jwt.sign({ user: account.user }, secret, { expiresIn: '7d' }),
@@ -119,12 +126,12 @@ export const editMovie = async (ctx) => {
 export const deleteMovie = async (ctx) => {
   try {
     const { id } = ctx.params;
-    const { header } = ctx.request;
-    const user = getLoggedInUser(header);
+    // const { header } = ctx.request;
+    // const user = getLoggedInUser(header);
     const movie = await Movies.findById(id);
-    if (movie.user !== user) {
-      throw new Error(`User ${user} tried to delete a movie posted by ${movie.user}.`);
-    }
+    // if (movie.user !== user) {
+    //   throw new Error(`User ${user} tried to delete a movie posted by ${movie.user}.`);
+    // }
     ctx.body = await movie.remove();
   } catch (e) {
     log.error(e);

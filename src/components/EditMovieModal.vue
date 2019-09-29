@@ -94,17 +94,20 @@ export default {
     },
     async onSubmit() {
       this.savingChanges = true;
-      const payload = {
-        ...this.movieData,
-        genre: this.movieData.genre.join(', '),
-      };
-      try {
-        await this.updateMovie(payload);
-      } catch (e) {
-        this.resetEdit();
-      }
-      this.savingChanges = false;
-      this.modalIsOpen = false;
+      setTimeout(async () => {
+        const payload = {
+          ...this.movieData,
+          genre: this.movieData.genre.join(', '),
+        };
+        try {
+          await this.updateMovie(payload);
+        } catch (e) {
+          this.resetEdit();
+        } finally {
+          this.modalIsOpen = false;
+          this.savingChanges = false;
+        }
+      }, 20000);
     },
   },
 };

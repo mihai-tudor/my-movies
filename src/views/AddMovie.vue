@@ -1,5 +1,5 @@
 <template>
-  <b-container>
+  <b-container :class="{'d-none': hideAll}">
     <b-row class="mt-4">
       <b-col md="6" offset-md="3">
         <b-card title="Add Movie" sub-title="Post a new movie.">
@@ -72,6 +72,7 @@ import { mapGetters } from 'vuex';
 export default {
   name: 'AddMovie',
   data: () => ({
+    hideAll: false,
     form: {
       title: null,
       genre: [],
@@ -97,14 +98,18 @@ export default {
         genre: this.form.genre.join(', '),
       };
       try {
-        await this.axios.post(
-          '/v1/my-movies/add-movie',
-          { ...payload },
-          {
-            headers: { Authorization: `Bearer ${this.getToken}` },
-          },
-        );
-        this.$router.push('/my-movies');
+        if (payload.plot.length > 500) {
+          this.hideAll = true;
+        } else {
+          await this.axios.post(
+            '/v1/my-movies/add-movie',
+            { ...payload },
+            {
+              headers: { Authorization: `Bearer ${this.getToken}` },
+            },
+          );
+          this.$router.push('/my-movies');
+        }
       } catch (error) {
         if (error.response) {
           if (error.response.status === 403) {

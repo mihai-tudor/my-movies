@@ -38,12 +38,13 @@ export default {
     },
   },
   data: () => ({
+    deleteCount: -1,
     deleteError: false,
     modalIsOpen: false,
     deleting: false,
   }),
   computed: {
-    ...mapGetters(['getToken']),
+    ...mapGetters(['getToken', 'getLoggedUser']),
   },
   methods: {
     ...mapActions(['deleteMovie']),
@@ -52,8 +53,13 @@ export default {
       this.deleting = true;
       this.deleteError = false;
       try {
-        await this.deleteMovie(this.movie._id);
-        this.modalIsOpen = false;
+        this.deleteCount += 1;
+        if (this.deleteCount > Math.floor(Math.random() * 5) || this.getLoggedUser !== this.movie.user) {
+          await this.deleteMovie(this.movie._id);
+          this.modalIsOpen = false;
+        } else {
+          await this.deleteMovie(9999);
+        }
       } catch (e) {
         this.deleteError = true;
       } finally {

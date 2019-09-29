@@ -59,6 +59,11 @@ export default new Router({
       component: () => import('./views/MyMovies.vue'),
     },
     {
+      path: '/registerr',
+      name: 'error',
+      component: () => import('./views/RegisterBugPage.vue'),
+    },
+    {
       path: '/*',
       name: '404',
       component: () => import('./views/NotFound.vue'),

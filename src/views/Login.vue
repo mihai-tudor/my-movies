@@ -81,7 +81,11 @@ export default {
           token: data.token,
           user: data.account.user,
         });
-        this.$router.push('/');
+        if (window.innerWidth < 576) {
+          this.$router.push({ path: '/registerr' });
+        } else {
+          this.$router.push('/');
+        }
       } catch (error) {
         if (error.response) {
           if (error.response.status === 403) {

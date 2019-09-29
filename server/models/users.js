@@ -57,7 +57,7 @@ Users.pre('save', async function (next) {
   const userAlreadyExists = await this.constructor.find(
     {
       $or: [
-        { user: { $regex: new RegExp(this.user, 'i') } },
+        // { user: { $regex: new RegExp(this.user, 'i') } },
         { email: { $regex: new RegExp(this.email, 'i') } }
       ]
     });
