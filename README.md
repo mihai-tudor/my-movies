@@ -2,13 +2,14 @@
 My movies is a test web app build with a Koa server/api and VueJS frontend.
 
 ## Prerequisites
-* node 10
+* node 16
 * yarn
+* mongodb 6.0
 
 ## Install and run server for production
 ```
 yarn install
-yarn start
+MONGODB_URI="mongodb://localhost/my-movies" yarn start:prod
 ```
 
 ## Install and run server for development
